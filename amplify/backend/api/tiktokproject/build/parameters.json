@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "tiktokproject",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "S3DeploymentBucket": "amplify-tiktokproject-dev-172548-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/e659ea6fa7d3926b66791994d7aec5cd9102def9"
+}

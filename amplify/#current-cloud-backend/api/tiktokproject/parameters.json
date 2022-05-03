@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "tiktokproject",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}

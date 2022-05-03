@@ -1,0 +1,304 @@
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  imageUri: String
+  posts(description: ModelStringKeyConditionInput, filter: ModelPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPostConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Post {
+  userID: ID!
+  id: ID!
+  videoUri: String!
+  description: String!
+  songID: ID!
+  likes: Int!
+  comments: Int!
+  shares: Int!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Song {
+  id: ID!
+  name: String!
+  imageUri: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelUserConnection {
+  items: [User]!
+  nextToken: String
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  username: ModelStringInput
+  email: ModelStringInput
+  imageUri: ModelStringInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+}
+
+type Query {
+  getUser(id: ID!): User
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+  getPost(id: ID!): Post
+  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection
+  getSong(id: ID!): Song
+  listSongs(filter: ModelSongFilterInput, limit: Int, nextToken: String): ModelSongConnection
+}
+
+input ModelUserConditionInput {
+  username: ModelStringInput
+  email: ModelStringInput
+  imageUri: ModelStringInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+}
+
+input CreateUserInput {
+  id: ID
+  username: String!
+  email: String!
+  imageUri: String
+}
+
+input UpdateUserInput {
+  id: ID!
+  username: String
+  email: String
+  imageUri: String
+}
+
+input DeleteUserInput {
+  id: ID!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User
+  createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post
+  updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post
+  deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post
+  createSong(input: CreateSongInput!, condition: ModelSongConditionInput): Song
+  updateSong(input: UpdateSongInput!, condition: ModelSongConditionInput): Song
+  deleteSong(input: DeleteSongInput!, condition: ModelSongConditionInput): Song
+}
+
+type Subscription {
+  onCreateUser: User @aws_subscribe(mutations: ["createUser"])
+  onUpdateUser: User @aws_subscribe(mutations: ["updateUser"])
+  onDeleteUser: User @aws_subscribe(mutations: ["deleteUser"])
+  onCreatePost: Post @aws_subscribe(mutations: ["createPost"])
+  onUpdatePost: Post @aws_subscribe(mutations: ["updatePost"])
+  onDeletePost: Post @aws_subscribe(mutations: ["deletePost"])
+  onCreateSong: Song @aws_subscribe(mutations: ["createSong"])
+  onUpdateSong: Song @aws_subscribe(mutations: ["updateSong"])
+  onDeleteSong: Song @aws_subscribe(mutations: ["deleteSong"])
+}
+
+type ModelPostConnection {
+  items: [Post]!
+  nextToken: String
+}
+
+input ModelPostFilterInput {
+  userID: ModelIDInput
+  id: ModelIDInput
+  videoUri: ModelStringInput
+  description: ModelStringInput
+  songID: ModelIDInput
+  likes: ModelIntInput
+  comments: ModelIntInput
+  shares: ModelIntInput
+  and: [ModelPostFilterInput]
+  or: [ModelPostFilterInput]
+  not: ModelPostFilterInput
+}
+
+input ModelPostConditionInput {
+  userID: ModelIDInput
+  videoUri: ModelStringInput
+  description: ModelStringInput
+  songID: ModelIDInput
+  likes: ModelIntInput
+  comments: ModelIntInput
+  shares: ModelIntInput
+  and: [ModelPostConditionInput]
+  or: [ModelPostConditionInput]
+  not: ModelPostConditionInput
+}
+
+input CreatePostInput {
+  userID: ID!
+  id: ID
+  videoUri: String!
+  description: String!
+  songID: ID!
+  likes: Int!
+  comments: Int!
+  shares: Int!
+}
+
+input UpdatePostInput {
+  userID: ID
+  id: ID!
+  videoUri: String
+  description: String
+  songID: ID
+  likes: Int
+  comments: Int
+  shares: Int
+}
+
+input DeletePostInput {
+  id: ID!
+}
+
+type ModelSongConnection {
+  items: [Song]!
+  nextToken: String
+}
+
+input ModelSongFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  imageUri: ModelStringInput
+  and: [ModelSongFilterInput]
+  or: [ModelSongFilterInput]
+  not: ModelSongFilterInput
+}
+
+input ModelSongConditionInput {
+  name: ModelStringInput
+  imageUri: ModelStringInput
+  and: [ModelSongConditionInput]
+  or: [ModelSongConditionInput]
+  not: ModelSongConditionInput
+}
+
+input CreateSongInput {
+  id: ID
+  name: String!
+  imageUri: String
+}
+
+input UpdateSongInput {
+  id: ID!
+  name: String
+  imageUri: String
+}
+
+input DeleteSongInput {
+  id: ID!
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}
+
